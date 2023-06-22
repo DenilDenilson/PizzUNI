@@ -4,9 +4,9 @@ export default function MenuTable() {
   <thead>
     <tr>
       <th>Plato</th>
-      <th>Precio Pequeño</th>
-      <th>Precio Mediano</th>
       <th>Precio Grande</th>
+      <th>Precio Mediano</th>
+      <th>Precio Pequeño</th>
     </tr>
   </thead>
   <tbody>
