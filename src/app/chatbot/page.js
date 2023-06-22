@@ -9,7 +9,7 @@ import {
 } from 'openai'
 
 // const openaiToken = process.env.OPENAI_TOKEN
-const openaiToken = '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'
+const openaiToken = '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'
 
 const configuration = new Configuration({
 	apiKey: openaiToken,
