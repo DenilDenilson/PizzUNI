@@ -2,11 +2,13 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import {
 	Configuration,
 	ChatCompletionRequestMessageRoleEnum,
 	OpenAIApi,
 } from 'openai'
+import MenuTable from '../components/MenuTable'
 
 // const openaiToken = process.env.OPENAI_TOKEN
 const openaiToken = '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'
@@ -44,8 +46,22 @@ const INITIAL_MESSAGE = [
 	},
 ]
 
+// const urlWsp = encodeURI(`{
+//   "pizza": {
+//     "size": "small",
+//     "type": "peppers",
+//     "extra_cheese": true,
+//     "price": 14.95
+//   },
+//   "toppings": [],
+//   "drinks": [],
+//   "sides": [],
+//   "total_price": 14.95
+// }`)
+
 export default function Page() {
 	const [messages, setMessages] = useState([])
+	const router = useRouter()
 
 	useEffect(() => {
 		async function fetchData() {
@@ -95,9 +111,62 @@ export default function Page() {
 		// console.log(messages)
 	}
 
+	const handleSubmitFinal = (e) => {
+		e.preventDefault()
+		// const fields = new window.FormData(e.target)
+		const inputChat =
+			'create a summary of the previous food order. Itemize the price for each item  The fields should be 1) pizza, include size 2) list of toppings 3) list of drinks, include size   4) list of sides include size  5)total price'
+		// const newMessages = { role: 'user', content: inputChat }
+
+		// setMessages([...messages, newMessages])
+		// setMessages((prevMessages) => [...prevMessages, newMessages])
+
+		async function fetchData() {
+			const completion = await openai.createChatCompletion({
+				model: 'gpt-3.5-turbo',
+				messages: [
+					...INITIAL_MESSAGE,
+					{
+						role: 'user',
+						content: inputChat,
+					},
+				],
+			})
+			const data = await completion.data.choices[0].message?.content
+
+			console.log(data)
+
+			// await redirect(`https://wa.me/51933156539?text=${encodeURI(data)}`)
+
+			await router.push(`https://wa.me/51933156539?text=${encodeURI(data)}`)
+			// const newMessage = { role: 'system', content: data }
+
+			// setMessages([...messages, newMessage])
+			// setMessages((prevMessages) => [...prevMessages, newMessage])
+
+			// INITIAL_MESSAGE.push(newMessage)
+		}
+		fetchData()
+		// console.log(messages)
+	}
+
 	return (
-		<>
-			<div className="mx-auto mt-8 outline outline-2 outline-slate-400 w-[750px] h-[700px] flex flex-col-reverse items-center py-2">
+		<div className="flex items-center">
+			<div className="flex flex-col items-center">
+				<MenuTable />
+				<form className="" onSubmit={handleSubmitFinal}>
+					<button className="w-[400px] mt-2 bg-green-600">
+						Hacer el pedido
+					</button>
+				</form>
+				{/* <a
+					href={`https://wa.me/51933156539?text=${urlWsp}`}
+					className="p-2 text-white text-center w-[400px] mx-2 mt-8 bg-green-600 rounded-lg"
+				>
+					📞 &nbsp;&nbsp; Hacer el pedido
+				</a> */}
+			</div>
+			<div className="mx-auto mt-8 outline outline-2 outline-slate-400 rounded-xl overflow-auto  w-[750px] h-[700px] flex flex-col-reverse items-center py-2">
 				<form className="" onSubmit={handleSubmit}>
 					<input
 						name="inputChat"
@@ -138,6 +207,6 @@ export default function Page() {
 					})}
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }
