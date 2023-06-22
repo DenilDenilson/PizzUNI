@@ -8,29 +8,15 @@ import CarruselBebidas from './components/CarruselBebidas'
 export default function Home() {
 	return (
 		<Fragment>
-			<nav className="flex justify-between">
-				<p>PizzUNI</p>
-				<ul className="flex gap-4">
-					<li>
-						<a href="#sobre-nosotros">Sobre nosotros</a>
-					</li>
-					<li>
-						<a href="#menu">Conoce nuestra carta</a>
-					</li>
-					<li>
-						<a href="/chatbotPage">Chatea con nosotros</a>
-					</li>
-				</ul>
-			</nav>
-			<div className="flex items-center gap-8">
+			<div className="flex items-center gap-8 justify-center">
 				<Image
 					src="https://i.imgur.com/hAerroc.jpg"
 					alt="Pizza UNI"
 					width={500}
 					height={500}
 				/>
-				<section id="sobre-nosotros">
-					<p className="text-4xl font-bold max-w-lg">
+				<section id="sobre-nosotros" className=" max-w-3xl">
+					<p className="text-4xl font-bold">
 						Bienvenido a PizzUNI - Tu destino de deliciosas pizzas
 					</p>
 					"Bienvenido(a) a PizzUNI - Tu Destino de Deliciosas Pizzas ¡La mejor
