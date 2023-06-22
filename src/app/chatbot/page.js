@@ -36,7 +36,7 @@ const INITIAL_MESSAGE = [
     AI sauce 1.50 
     peppers 2.00 
     Drinks: 
-    coke 3.00, 2.00, 1.00 
+    coca cola 3.00, 2.00, 1.00 
     sprite 3.00, 2.00, 1.00 
     bottled water 3.00 `,
 	},
