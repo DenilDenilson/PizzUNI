@@ -16,10 +16,10 @@ export default function RootLayout({ children }) {
 					<p>PizzUNI</p>
 					<ul className="flex gap-4">
 						<li>
-							<a href="#sobre-nosotros">Sobre nosotros</a>
+							<a href="/#sobre-nosotros">Sobre nosotros</a>
 						</li>
 						<li>
-							<a href="#menu">Conoce nuestra carta</a>
+							<a href="/#menu">Conoce nuestra carta</a>
 						</li>
 						<li>
 							<a href="/chatbot">Chatea con nosotros</a>
