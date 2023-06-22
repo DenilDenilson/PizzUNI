@@ -1,18 +1,97 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import {
+	Configuration,
+	ChatCompletionRequestMessageRoleEnum,
+	OpenAIApi,
+} from 'openai'
+
+const openaiToken = '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'
+
+const configuration = new Configuration({
+	apiKey: openaiToken,
+})
+const openai = new OpenAIApi(configuration)
+
+const INITIAL_MESSAGE = [
+	{
+		role: ChatCompletionRequestMessageRoleEnum.System,
+		content: `You are OrderBot, an automated service to collect orders for a pizza restaurant. You first greet the customer, then collects the order, and then asks if it's a pickup or delivery. You wait to collect the entire order, then summarize it and check for a final time if the customer wants to add anything else. If it's a delivery, you ask for an address. Finally you collect the payment.Make sure to clarify all options, extras and sizes to uniquely identify the item from the menu. You respond in a short, very conversational friendly style. 
+    The menu includes 
+    pepperoni pizza  12.95, 10.00, 7.00 
+    cheese pizza   10.95, 9.25, 6.50 
+    pineapple pizza   11.95, 9.75, 6.75 
+    fries 4.50, 3.50 
+    greek salad 7.25 
+    Toppings: 
+    extra cheese 2.00, 
+    mushrooms 1.50 
+    sausage 3.00 
+    canadian bacon 3.50 
+    AI sauce 1.50 
+    peppers 1.00 
+    Drinks: 
+    coke 3.00, 2.00, 1.00 
+    sprite 3.00, 2.00, 1.00 
+    bottled water 5.00 `,
+	},
+	{
+		role: ChatCompletionRequestMessageRoleEnum.User,
+		content: ` `,
+	},
+]
 
 export default function Page() {
 	const [messages, setMessages] = useState([])
+
+	useEffect(() => {
+		async function fetchData() {
+			const completion = await openai.createChatCompletion({
+				model: 'gpt-3.5-turbo',
+				messages: [...INITIAL_MESSAGE],
+			})
+			const data = completion.data.choices[0].message?.content
+			const newMessage = { role: 'system', content: data }
+			setMessages([...messages, newMessage])
+			INITIAL_MESSAGE.push(newMessage)
+		}
+		fetchData()
+	}, [])
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		const fields = new window.FormData(e.target)
 		const inputChat = fields.get('inputChat')
-		const newMessages = { role: 'customer', message: inputChat }
-		setMessages([...messages, newMessages])
+		const newMessages = { role: 'user', content: inputChat }
+
+		// setMessages([...messages, newMessages])
+		setMessages((prevMessages) => [...prevMessages, newMessages])
+
 		e.target.reset()
+
+		async function fetchData() {
+			const completion = await openai.createChatCompletion({
+				model: 'gpt-3.5-turbo',
+				messages: [
+					...INITIAL_MESSAGE,
+					{
+						role: 'user',
+						content: inputChat,
+					},
+				],
+			})
+			const data = completion.data.choices[0].message?.content
+			const newMessage = { role: 'system', content: data }
+
+			// setMessages([...messages, newMessage])
+			setMessages((prevMessages) => [...prevMessages, newMessage])
+
+			INITIAL_MESSAGE.push(newMessage)
+		}
+		fetchData()
+		// console.log(messages)
 	}
 
 	return (
@@ -32,9 +111,9 @@ export default function Page() {
 						return (
 							<div
 								key={index}
-								className="flex items-center self-start ml-16 mt-4"
+								className="flex items-center self-start mx-16 mt-4"
 							>
-								{message.role === 'customer' ? (
+								{message.role === 'user' ? (
 									<Image
 										src="https://i.imgur.com/Hq8No80.png"
 										alt="Imagen de perfil del chatbot"
@@ -52,7 +131,7 @@ export default function Page() {
 									/>
 								)}
 
-								<p>{message.message}</p>
+								<p>{message.content}</p>
 							</div>
 						)
 					})}
