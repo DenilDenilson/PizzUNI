@@ -11,7 +11,7 @@ export default function CarruselBebidas() {
             'https://i.imgur.com/OPnPEMr.jpg'
           }
           altText={'Imagen de una pizza acompañada de una soda de coca cola'}
-          price={'20'}
+          price={'3.00, 2.00, 1.00'}
         />
         <MenuCard
           title={'Sprite'}
@@ -19,7 +19,7 @@ export default function CarruselBebidas() {
             'https://i.imgur.com/C3YLVQF.png'
           }
           altText={'Imagen de una pizza acompañada de una soda de sprite'}
-          price={'20'}
+          price={'3.00, 2.00, 1.00'}
         />
         <MenuCard
           title={'Agua'}
@@ -27,7 +27,7 @@ export default function CarruselBebidas() {
             'https://i.imgur.com/49ulEoH.jpg'
           }
           altText={'Imagen de una pizza acompañada de una botella de agua'}
-          price={'20'}
+          price={'3.00'}
         />
       </section>
     </div>
