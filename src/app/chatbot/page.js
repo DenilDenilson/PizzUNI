@@ -11,7 +11,7 @@ import {
 import MenuTable from '../components/MenuTable'
 
 // const openaiToken = process.env.OPENAI_TOKEN
-const openaiToken = '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'
+const openaiToken = '' // api token de openAI
 
 const configuration = new Configuration({
 	apiKey: openaiToken,
@@ -45,19 +45,6 @@ const INITIAL_MESSAGE = [
 		content: ` `,
 	},
 ]
-
-// const urlWsp = encodeURI(`{
-//   "pizza": {
-//     "size": "small",
-//     "type": "peppers",
-//     "extra_cheese": true,
-//     "price": 14.95
-//   },
-//   "toppings": [],
-//   "drinks": [],
-//   "sides": [],
-//   "total_price": 14.95
-// }`)
 
 export default function Page() {
 	const [messages, setMessages] = useState([])
